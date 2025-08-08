@@ -1,0 +1,9 @@
+file(GLOB TEST_SOURCES *.c)
+
+find_package(CUnit REQUIRED)
+
+add_executable(run_tests ${TEST_SOURCES})
+
+target_link_libraries(run_tests dsa_lib CUnit::CUnit)
+
+add_test(NAME AllTests COMMAND run_tests)
