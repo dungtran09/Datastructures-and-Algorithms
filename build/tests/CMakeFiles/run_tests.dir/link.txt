@@ -1,1 +1,0 @@
-/usr/bin/cc --coverage -Wl,--wrap=malloc -Wl,--wrap=calloc -Wl,--wrap=realloc CMakeFiles/run_tests.dir/main.c.o CMakeFiles/run_tests.dir/test_array.c.o CMakeFiles/run_tests.dir/test_helpers.c.o CMakeFiles/run_tests.dir/test_malloc_wraper.c.o -o run_tests  ../libdsa_lib.a -lcunit 
