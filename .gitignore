@@ -1,0 +1,44 @@
+# Build directories
+/build/
+build/
+out/
+bin/
+lib/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+CTestTestfile.cmake
+Testing/
+
+# Compiled object files & libs
+*.o
+*.obj
+*.so
+*.a
+*.lo
+*.la
+*.dll
+*.lib
+*.exe
+
+# Coverage & profiling files
+*.gcda
+*.gcno
+*.gcov
+coverage.info
+coverage_report/
+
+# Editor & OS files
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
