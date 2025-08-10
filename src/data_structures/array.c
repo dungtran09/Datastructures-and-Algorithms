@@ -68,18 +68,3 @@ void Array_Destroy(Array *self) {
   free(self->array);
   free(self);
 }
-
-int main() {
-  /* const size_t item = 10; */
-  /* Array *my_arr = NULL; */
-  /**/
-  /* ResultCode result = Array_CreateFirstItem(my_arr, &item); */
-  /**/
-  /* if (result == kSuccess) { */
-  /*   printf("%s", Result_ErrorMessage(result)); */
-  /* } else { */
-  /*   printf("%s", Result_ErrorMessage(kEmpty)); */
-  /* } */
-
-  return 0;
-}
