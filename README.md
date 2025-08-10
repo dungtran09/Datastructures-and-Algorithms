@@ -2,7 +2,6 @@
 # Datastructures-and-Algorithms
 
 [![CI](https://github.com/dungtran09/Datastructures-and-Algorithms/actions/workflows/ci.yml/badge.svg)](https://github.com/dungtran09/Datastructures-and-Algorithms/actions/workflows/ci.yml/badge.svg?branch=main)
-
 [![Build Status](https://img.shields.io/github/actions/workflow/status/dungtran09/Datastructures-and-Algorithms/ci.yml?branch=main)](https://github.com/dungtran09/Datastructures-and-Algorithms/actions/workflows/ci.yml)
 
 
