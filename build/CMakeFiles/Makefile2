@@ -99,7 +99,7 @@ tests/clean: tests/CMakeFiles/run_tests.dir/clean
 CMakeFiles/dsa_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dsa_lib.dir/build.make CMakeFiles/dsa_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dsa_lib.dir/build.make CMakeFiles/dsa_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num=2,3,4,5 "Built target dsa_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num=1,2,3,4 "Built target dsa_lib"
 .PHONY : CMakeFiles/dsa_lib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -125,12 +125,12 @@ CMakeFiles/dsa_lib.dir/clean:
 CMakeFiles/coverage.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coverage.dir/build.make CMakeFiles/coverage.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/coverage.dir/build.make CMakeFiles/coverage.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num=1 "Built target coverage"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num= "Built target coverage"
 .PHONY : CMakeFiles/coverage.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/coverage.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles 0
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/coverage.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles 0
 .PHONY : CMakeFiles/coverage.dir/rule
@@ -151,7 +151,7 @@ CMakeFiles/coverage.dir/clean:
 tests/CMakeFiles/run_tests.dir/all: CMakeFiles/dsa_lib.dir/all
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/run_tests.dir/build.make tests/CMakeFiles/run_tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/run_tests.dir/build.make tests/CMakeFiles/run_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num=6,7,8,9,10 "Built target run_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num=5,6,7,8,9 "Built target run_tests"
 .PHONY : tests/CMakeFiles/run_tests.dir/all
 
 # Build rule for subdir invocation for target.

@@ -32,11 +32,11 @@ if(ENABLE_COVERAGE)
     if(LCOV_PATH AND GENHTML_PATH)
         add_custom_target(coverage
             COMMAND ${LCOV_PATH} --directory . --capture --output-file coverage.info
-            COMMAND ${LCOV_PATH} --remove coverage.info '/usr/*' '*/tests/*' --ignore-errors unused --output-file coverage.info
+            COMMAND ${LCOV_PATH} --extract coverage.info "${CMAKE_SOURCE_DIR}/src/*" --ignore-errors unused --output-file coverage.info
             COMMAND ${GENHTML_PATH} coverage.info --output-directory coverage_report
-            COMMENT "Generating coverage report in coverage_report/index.html"
             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        )
+)
+
     endif()
 endif()
 

@@ -67,9 +67,8 @@ include CMakeFiles/coverage.dir/compiler_depend.make
 include CMakeFiles/coverage.dir/progress.make
 
 CMakeFiles/coverage:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating coverage report in coverage_report/index.html"
 	/usr/bin/lcov --directory . --capture --output-file coverage.info
-	/usr/bin/lcov --remove coverage.info '/usr/*' '*/tests/*' --ignore-errors unused --output-file coverage.info
+	/usr/bin/lcov --extract coverage.info /home/dungtran/workspaces/Datastructures-and-Algorithms/src/* --ignore-errors unused --output-file coverage.info
 	/usr/bin/genhtml coverage.info --output-directory coverage_report
 
 coverage: CMakeFiles/coverage

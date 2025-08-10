@@ -1,10 +1,10 @@
-Start testing: Aug 11 00:29 +07
+Start testing: Aug 11 00:39 +07
 ----------------------------------------------------------
 1/1 Testing: AllTests
 1/1 Test: AllTests
 Command: "/home/dungtran/workspaces/Datastructures-and-Algorithms/build/tests/run_tests"
 Directory: /home/dungtran/workspaces/Datastructures-and-Algorithms/build/tests
-"AllTests" start time: Aug 11 00:29 +07
+"AllTests" start time: Aug 11 00:39 +07
 Output:
 ----------------------------------------------------------
 
@@ -28,8 +28,8 @@ Elapsed time =    0.000 seconds
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"AllTests" end time: Aug 11 00:29 +07
+"AllTests" end time: Aug 11 00:39 +07
 "AllTests" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Aug 11 00:29 +07
+End testing: Aug 11 00:39 +07
