@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdsa_lib.a CMakeFiles/dsa_lib.dir/src/data_structures/array.c.o CMakeFiles/dsa_lib.dir/src/utils/comparators.c.o CMakeFiles/dsa_lib.dir/src/utils/result_code.c.o
+/usr/bin/ranlib libdsa_lib.a

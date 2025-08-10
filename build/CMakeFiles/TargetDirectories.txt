@@ -1,0 +1,9 @@
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles/dsa_lib.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles/coverage.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles/test.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles/edit_cache.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/CMakeFiles/rebuild_cache.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/tests/CMakeFiles/run_tests.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/tests/CMakeFiles/test.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/tests/CMakeFiles/edit_cache.dir
+/home/dungtran/workspaces/Datastructures-and-Algorithms/build/tests/CMakeFiles/rebuild_cache.dir

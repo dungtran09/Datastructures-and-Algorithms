@@ -5,14 +5,14 @@
 static bool intercept_malloc = false;
 static size_t intercept_count = 0;
 
-void *__real_mallloc(size_t size);
+void *__real_malloc(size_t size);
 void *__wrap_malloc(size_t size) {
   if (intercept_malloc) {
     ++intercept_count;
     return NULL;
   }
 
-  return __real_mallloc(size);
+  return __real_malloc(size);
 }
 
 void *__real_calloc(size_t nmemb, size_t size);

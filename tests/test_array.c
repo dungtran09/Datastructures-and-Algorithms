@@ -37,7 +37,8 @@ int RegisterArrayTests() {
 
   CU_SuiteInfo suites[] = {
       {.pName = "Array_Create", .pInitFunc = noop, .pTests = Create_tests},
-      CU_TEST_INFO_NULL};
+      {.pName = "Array_Destroy", .pInitFunc = noop, .pTests = Destroy_tests},
+      CU_SUITE_INFO_NULL};
 
   return CU_register_suites(suites);
 }
