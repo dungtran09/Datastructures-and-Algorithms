@@ -36,6 +36,11 @@ jobs:
           cd build
           ctest --output-on-failure
 
+      - name: Copy test data
+        run: |
+        mkdir -p build/data
+        cp -r tests/data/* build/data/
+
       # Optional: Coverage
       - name: Generate coverage
         run: |
