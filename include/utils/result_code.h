@@ -26,7 +26,8 @@ typedef enum Result {
   kSecurityError = -11,
   kSystemError = -12,
   kOverFlow = -13,
-  KUnderFlow = -14,
+  kUnderFlow = -14,
+  kInvalidArgument = -15
 } Result;
 
 typedef Result ResultCode;

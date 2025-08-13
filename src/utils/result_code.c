@@ -31,8 +31,10 @@ char *Result_ErrorMessage(Result result) {
     return "Underlying OS error!";
   case kOverFlow:
     return "Overflow - Request exceeds maximun size!";
-  case KUnderFlow:
+  case kUnderFlow:
     return "Underflow - Request exceeds minimum size!";
+  case kInvalidArgument:
+    return "Invalid argument!";
   default:
     return "Unknow result code!";
   }
