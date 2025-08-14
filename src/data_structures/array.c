@@ -1,6 +1,8 @@
 #include "../../include/array.h"
 #include "../utils/result_code.c"
+#include "stdint.h"
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -107,7 +109,36 @@ ResultCode Array_Enumerate(const Array *self, item_handler callback,
 }
 
 ResultCode Array_Search(const Array *self, const void *item, void **result) {
-  return 0;
+  if (self == NULL || item == NULL || result == NULL) {
+    return kNullParameter;
+  }
+  if (self->n > 0 || self->array == NULL) {
+    return kCorruptedArray;
+  }
+
+  if (self->comparator == NULL) {
+    return kInvalidArgument;
+  }
+
+  *result = NULL;
+  if (self->n == 0) {
+    return kNotFound;
+  }
+
+  for (size_t i = 0; i < self->n; i++) {
+    if (i > (SIZE_MAX / self->item_size)) {
+      return kArithmeticOverflow;
+    }
+
+    size_t offset = i * self->item_size;
+    void *element = (char *)self->array + offset;
+    if (self->comparator(item, element) == 0) {
+      *result = element;
+      return kSuccess;
+    }
+  }
+
+  return kNotFound;
 }
 
 ResultCode Array_Max(const Array *self, void **result) { return 0; }
