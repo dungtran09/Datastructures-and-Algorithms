@@ -12,24 +12,33 @@
   }
 
 typedef enum Result {
+  /* ===== Success ===== */
   kSuccess = 0,
-  kNullParameter = -1,
-  kFailedMemoryAllocation = -2,
-  kArithmeticOverflow = -3,
-  kInvalidIndex = -4,
-  kArgumentOutOfRange = -5,
-  kDependancyError = -6,
-  kEmpty = -7,
-  kNotFound = -8,
-  KDuplicate = -9,
-  kOutputPointerIsNotNull = -10,
-  kSecurityError = -11,
-  kSystemError = -12,
-  kOverFlow = -13,
-  kUnderFlow = -14,
-  kInvalidArgument = -15
+
+  /* ===== Parameter Errors (-1xx) ===== */
+  kNullParameter = -100,
+  kInvalidArgument = -101,
+  kOutputPointerIsNotNull = -102,
+  kArgumentOutOfRange = -103,
+  kArithmeticOverflow = -104,
+  kArithmeticUnderflow = -105,
+  kInvalidIndex = -106,
+
+  /* ===== State Errors (-2xx) ===== */
+  kEmpty = -200,
+  kFull = -201,
+  kNotFound = -202,
+  kDuplicate = -203,
+  kCorruptedArray = -204,
+  /* ===== Runtime Errors (-3xx) ===== */
+  kFailedMemoryAllocation = -300,
+  kOverflow = -301,
+  kUnderflow = -302,
+  kDependancyError = -303,
+
+  /* ===== System Errors (-4xx) ===== */
+  kSecurityError = -400,
+  kSystemError = -401
 } Result;
 
 typedef Result ResultCode;
-
-char *Result_ErrorMessage(Result);

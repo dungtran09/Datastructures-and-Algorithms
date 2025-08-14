@@ -2,40 +2,54 @@
 
 char *Result_ErrorMessage(Result result) {
   switch (result) {
+  /* ===== Success ===== */
   case kSuccess:
-    return "Success";
+    return "Success.";
+
+  /* ===== Parameter Errors ===== */
   case kNullParameter:
-    return "A required parameter is NULL!";
-  case kFailedMemoryAllocation:
-    return "Failed to allocate memory!";
-  case kArithmeticOverflow:
-    return "Arithmetic Overflow!";
-  case kInvalidIndex:
-    return "Invqlid index!";
-  case kArgumentOutOfRange:
-    return "The specified valiue is outside the range of valid values";
-  case kDependancyError:
-    return "Error code from a dependency!";
-  case kEmpty:
-    return "List is empty!";
-  case kNotFound:
-    return "The requested object was not found!";
-  case KDuplicate:
-    return "The parameter is a duplicate of an exiting item!";
-  case kOutputPointerIsNotNull:
-    return "An output parameter pointer is not null. These are intended to be "
-           "populated by the function";
-  case kSecurityError:
-    return "There was a security related error!";
-  case kSystemError:
-    return "Underlying OS error!";
-  case kOverFlow:
-    return "Overflow - Request exceeds maximun size!";
-  case kUnderFlow:
-    return "Underflow - Request exceeds minimum size!";
+    return "A required parameter is NULL.";
   case kInvalidArgument:
-    return "Invalid argument!";
+    return "Invalid argument.";
+  case kArgumentOutOfRange:
+    return "The specified value is outside the valid range.";
+  case kInvalidIndex:
+    return "Invalid index.";
+  case kOutputPointerIsNotNull:
+    return "Output pointer must be NULL before calling this function.";
+  case kArithmeticOverflow:
+    return "Arithmetic overflow.";
+  case kArithmeticUnderflow:
+    return "Arithmetic underflow.";
+
+  /* ===== State Errors ===== */
+  case kEmpty:
+    return "The array is empty.";
+  case kNotFound:
+    return "Requested item not found.";
+  case kDuplicate:
+    return "The item already exists (duplicate).";
+  case kCorruptedArray:
+    return "Array structure is corrupted.";
+
+  /* ===== Runtime Errors ===== */
+  case kFailedMemoryAllocation:
+    return "Failed to allocate memory.";
+  case kOverflow:
+    return "Data size exceeds maximum capacity.";
+  case kUnderflow:
+    return "Data size below minimum capacity.";
+  case kDependancyError:
+    return "Error returned from a dependency.";
+
+  /* ===== System Errors ===== */
+  case kSecurityError:
+    return "Security-related error.";
+  case kSystemError:
+    return "Underlying operating system error.";
+
+  /* ===== Default ===== */
   default:
-    return "Unknow result code!";
+    return "Unknown result code.";
   }
 }
