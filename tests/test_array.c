@@ -17,7 +17,8 @@ typedef struct {
 #define SUT(vals, n, code_block)                                               \
   {                                                                            \
     Array *sut = NULL;                                                         \
-    ResultCode result_code = Array_Create(PIntComparator, sizeof(int), &sut);  \
+    ResultCode result_code =                                                   \
+        Array_Create(int_comparator_fn, sizeof(int), &sut);                    \
     CU_ASSERT_EQUAL(result_code, kSuccess)                                     \
     for (size_t i = 0; i < (n), i++) {                                         \
       result_code = Array_InsertAtTail(sut, &(vals)[i]);                       \
@@ -26,18 +27,63 @@ typedef struct {
     {code_block};                                                              \
     Array_Destroy(sut);                                                        \
   }
-
+/***** Array_create *****/
 static void Array_Create_bad_malloc() {
   FAILED_MALLOC_TEST({
     Array *array = NULL;
-    ResultCode result_code = Array_Create(PIntComparator, sizeof(int), &array);
+    ResultCode result_code =
+        Array_Create(int_comparator_fn, sizeof(int), &array);
     CU_ASSERT_EQUAL(result_code, kFailedMemoryAllocation);
     CU_ASSERT_PTR_NULL(array);
   });
 }
 
+static void Array_Create_inits_values() {
+  Array *arr = NULL;
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+
+  CU_ASSERT_PTR_EQUAL(int_comparator_fn, arr->comparator);
+  CU_ASSERT_PTR_EQUAL(sizeof(int), arr->item_size);
+  CU_ASSERT_EQUAL(0, arr->n);
+  CU_ASSERT_PTR_NULL(arr->array);
+
+  Array_Destroy(arr);
+}
+
+/***** Array_InsertAtHead *****/
+static void Array_InsertAtHead_null_parameter() {
+  const int n = 5;
+  const int items[] = {1, 2, 3, 4, 5, 6};
+  const int expected[] = {6, 5, 4, 3, 2, 1};
+
+  Array *arr = NULL;
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+
+  for (size_t i = 0; i < n; i++) {
+    result_code = Array_InsertAtHead(arr, &items[i]);
+    CU_ASSERT_EQUAL(result_code, kSuccess);
+  }
+
+  CU_ASSERT_EQUAL(n, arr->n);
+  CU_ASSERT_EQUAL(0, memcmp(expected, arr->array, sizeof(int) * n));
+  Array_Destroy(arr);
+}
+
+static void Array_InsertAtHead_bad_malloc() {}
+
+static void Array_InsertAtHead_first_item() {}
+
+static void Array_InsertAtHead_standard() {}
+
+static void Array_InsertAtHead_bad_malloc_on_realloc() {}
+
+/****__*****/
+
 static void Array_Destroy_null_parameter() { Array_Destroy(NULL); }
 
+/****__*****/
 static TestArray *_readArrayFile(const char *path) {
   printf("Opening file: %s\n", path);
   FILE *fp = fopen(path, "r");
@@ -103,7 +149,7 @@ static void _testArrayFile(const char *path, int expected_sum) {
   printf("[_testArrayFile] tarr->size=%zu\n", tarr->size);
   Array *arr = NULL;
 
-  ResultCode result_code = Array_Create(PIntComparator, sizeof(int), &arr);
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
   printf("[_testArrayFile] Array_Create result=%d, arr=%p\n", result_code,
          (void *)arr);
 
@@ -136,7 +182,7 @@ static int _parserExpectedFromFilename(const char *filename) {
   }
   if (!*p) {
     fprintf(stderr, "[ERROR] No number found in filename: %s\n", filename);
-    return -9999; // hoặc giá trị đặc biệt để test fail rõ ràng
+    return -9999;
   }
 
   int result = atoi(p);
@@ -174,7 +220,11 @@ int RegisterArrayTests() {
 
   CU_TestInfo Create_Destroy_tests[] = {
       CU_TEST_INFO(Array_Create_bad_malloc),
+      CU_TEST_INFO(Array_Create_inits_values),
       CU_TEST_INFO(Array_Destroy_null_parameter), CU_TEST_INFO_NULL};
+  CU_TestInfo InsertAtHead_tests[] = {CU_TEST_INFO(Array_InsertAtHead_standard),
+                                      CU_TEST_INFO_NULL};
+  ;
   CU_TestInfo FileData_tests[] = {CU_TEST_INFO(Array_SolveFiles_test),
                                   CU_TEST_INFO_NULL};
   CU_SuiteInfo suites[] = {
@@ -182,6 +232,9 @@ int RegisterArrayTests() {
        .pInitFunc = noop,
        .pTests = Create_Destroy_tests},
       {.pName = "Array_FileData", .pInitFunc = noop, .pTests = FileData_tests},
+      {.pName = "Array_InsertAtHead",
+       .pInitFunc = noop,
+       .pTests = InsertAtHead_tests},
       CU_SUITE_INFO_NULL};
 
   return CU_register_suites(suites);

@@ -30,6 +30,7 @@ typedef enum Result {
   kNotFound = -202,
   kDuplicate = -203,
   kCorruptedArray = -204,
+
   /* ===== Runtime Errors (-3xx) ===== */
   kFailedMemoryAllocation = -300,
   kOverflow = -301,
