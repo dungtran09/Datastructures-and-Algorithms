@@ -71,7 +71,18 @@ static void Array_InsertAtHead_null_parameter() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_bad_malloc() {}
+static void Array_InsertAtHead_bad_malloc() {
+  int first = 1;
+  Array *arr = NULL;
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+
+  result_code = Array_InsertAtHead(arr, &first);
+  CU_ASSERT_EQUAL(result_code, kFailedMemoryAllocation);
+  CU_ASSERT_EQUAL(0, arr->n);
+
+  Array_Destroy(arr);
+}
 
 static void Array_InsertAtHead_first_item() {}
 
@@ -223,6 +234,7 @@ int RegisterArrayTests() {
       CU_TEST_INFO(Array_Create_inits_values),
       CU_TEST_INFO(Array_Destroy_null_parameter), CU_TEST_INFO_NULL};
   CU_TestInfo InsertAtHead_tests[] = {CU_TEST_INFO(Array_InsertAtHead_standard),
+                                      CU_TEST_INFO(Array_Create_bad_malloc),
                                       CU_TEST_INFO_NULL};
   ;
   CU_TestInfo FileData_tests[] = {CU_TEST_INFO(Array_SolveFiles_test),
