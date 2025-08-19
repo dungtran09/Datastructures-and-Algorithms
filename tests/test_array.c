@@ -84,7 +84,21 @@ static void Array_InsertAtHead_bad_malloc() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_first_item() {}
+static void Array_InsertAtHead_first_item() {
+  int item = 1;
+  Array *arr = NULL;
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+
+  result_code = Array_InsertAtHead(arr, &item);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+  CU_ASSERT_EQUAL(1, arr->n);
+
+  int *firstItem = (int *)arr->array;
+  CU_ASSERT_EQUAL(item, firstItem[0]);
+
+  Array_Destroy(arr);
+}
 
 static void Array_InsertAtHead_standard() {}
 
@@ -96,7 +110,7 @@ static void Array_Destroy_null_parameter() { Array_Destroy(NULL); }
 
 /****__*****/
 static TestArray *_readArrayFile(const char *path) {
-  printf("Opening file: %s\n", path);
+  /* printf("Opening file: %s\n", path); */
   FILE *fp = fopen(path, "r");
   if (!fp) {
     perror("Failed to open file!");
@@ -115,22 +129,22 @@ static TestArray *_readArrayFile(const char *path) {
 
   tarr->data = malloc(sizeof(int) * tarr->size);
   if (!tarr->data) {
-    printf("[ERROR] Memory allocation failed for data array\n");
+    /* printf("[ERROR] Memory allocation failed for data array\n"); */
     fclose(fp);
     free(tarr);
     return NULL;
   }
-  printf("Array size: %zu\n", tarr->size);
+  /* printf("Array size: %zu\n", tarr->size); */
 
   for (size_t i = 0; i < tarr->size; i++) {
     if (fscanf(fp, "%d", &tarr->data[i]) != 1) {
-      printf("Failed to read element %zu\n", i);
+      /* printf("Failed to read element %zu\n", i); */
       fclose(fp);
       free(tarr->data);
       free(tarr);
       return NULL;
     }
-    printf("Read element %zu = %d\n", i, tarr->data[i]);
+    /* printf("Read element %zu = %d\n", i, tarr->data[i]); */
   }
 
   fclose(fp);
@@ -144,49 +158,53 @@ static void _sumCallback(const void *x, void *user_data) {
 }
 static int _sumArray(Array *arr, int initial_val) {
   int sum = initial_val;
-  printf("[DEBUG] _sumArray: start sum = %d\n", sum);
+  /* printf("[DEBUG] _sumArray: start sum = %d\n", sum); */
   Array_Enumerate(arr, _sumCallback, &sum);
-  printf("[DEBUG] _sumArray: final sum = %d\n", sum);
+  /* printf("[DEBUG] _sumArray: final sum = %d\n", sum); */
   return sum;
 }
 
 static void _testArrayFile(const char *path, int expected_sum) {
-  printf("[_testArrayFile] Called with path='%s', expected_sum=%d\n", path,
-         expected_sum);
+  /* printf("[_testArrayFile] Called with path='%s', expected_sum=%d\n", path,
+   */
+  /*        expected_sum); */
   TestArray *tarr = _readArrayFile(path);
-  printf("[_testArrayFile] _readArrayFile returned: %p\n", (void *)tarr);
+  /* printf("[_testArrayFile] _readArrayFile returned: %p\n", (void *)tarr); */
 
   CU_ASSERT_PTR_NOT_NULL_FATAL(tarr);
-  printf("[_testArrayFile] tarr->size=%zu\n", tarr->size);
+  /* printf("[_testArrayFile] tarr->size=%zu\n", tarr->size); */
   Array *arr = NULL;
 
   ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
-  printf("[_testArrayFile] Array_Create result=%d, arr=%p\n", result_code,
-         (void *)arr);
+  /* printf("[_testArrayFile] Array_Create result=%d, arr=%p\n", result_code, */
+  /*        (void *)arr); */
 
   CU_ASSERT_EQUAL(result_code, kSuccess);
 
   for (size_t i = 0; i < tarr->size; i++) {
-    printf("[_testArrayFile] Inserting element[%zu] = %d\n", i, tarr->data[i]);
+    /* printf("[_testArrayFile] Inserting element[%zu] = %d\n", i,
+     * tarr->data[i]); */
     result_code = Array_InsertAtTail(arr, &tarr->data[i]);
-    printf("[_testArrayFile] Array_InsertAtTail result=%d\n", result_code);
+    /* printf("[_testArrayFile] Array_InsertAtTail result=%d\n", result_code);
+     */
     CU_ASSERT_EQUAL(result_code, kSuccess);
   }
 
   int actual_val = _sumArray(arr, 0);
-  printf("[_testArrayFile] _sumArray returned actual_val=%d\n", actual_val);
+  /* printf("[_testArrayFile] _sumArray returned actual_val=%d\n", actual_val);
+   */
   CU_ASSERT_EQUAL(actual_val, expected_sum);
-  printf("[_testArrayFile] Destroying array...\n");
+  /* printf("[_testArrayFile] Destroying array...\n"); */
   Array_Destroy(arr);
-  printf("[_testArrayFile] Freeing tarr->data and tarr...\n");
+  /* printf("[_testArrayFile] Freeing tarr->data and tarr...\n"); */
 
   free(tarr->data);
   free(tarr);
-  printf("[_testArrayFile] Completed successfully.\n");
+  /* printf("[_testArrayFile] Completed successfully.\n"); */
 }
 
 static int _parserExpectedFromFilename(const char *filename) {
-  printf("[_parserExpectedFromFilename] Input filename='%s'\n", filename);
+
   const char *p = filename;
   while (*p && !isdigit((unsigned char)*p)) {
     p++;
@@ -198,12 +216,12 @@ static int _parserExpectedFromFilename(const char *filename) {
 
   int result = atoi(p);
 
-  printf("[_parserExpectedFromFilename] Extracted number=%d\n", result);
+  /* printf("[_parserExpectedFromFilename] Extracted number=%d\n", result); */
   return result;
 }
 
 void Array_SolveFiles(void) {
-  printf("[Array_SolveFiles] Opening directory 'test_data'\n");
+  /* printf("[Array_SolveFiles] Opening directory 'test_data'\n"); */
   DIR *dir = opendir("test_data");
   CU_ASSERT_PTR_NOT_NULL_FATAL(dir);
 
@@ -211,18 +229,18 @@ void Array_SolveFiles(void) {
 
   char path[512];
   while ((entry = readdir(dir)) != NULL) {
-    printf("[Array_SolveFiles] Found entry: name='%s', type=%d\n",
-           entry->d_name, entry->d_type);
+    /* printf("[Array_SolveFiles] Found entry: name='%s', type=%d\n", */
+    /*        entry->d_name, entry->d_type); */
     if (entry->d_type == DT_REG) {
       snprintf(path, sizeof(path), "test_data/%s", entry->d_name);
-      printf("[Array_SolveFiles] Processing file path='%s'\n", path);
+      /* printf("[Array_SolveFiles] Processing file path='%s'\n", path); */
       int expected_sum = _parserExpectedFromFilename(entry->d_name);
       _testArrayFile(path, expected_sum);
     }
   }
 
   closedir(dir);
-  printf("[Array_SolveFiles] Directory closed\n");
+  /* printf("[Array_SolveFiles] Directory closed\n"); */
 }
 
 static void Array_SolveFiles_test(void) { Array_SolveFiles(); }
@@ -233,9 +251,10 @@ int RegisterArrayTests() {
       CU_TEST_INFO(Array_Create_bad_malloc),
       CU_TEST_INFO(Array_Create_inits_values),
       CU_TEST_INFO(Array_Destroy_null_parameter), CU_TEST_INFO_NULL};
-  CU_TestInfo InsertAtHead_tests[] = {CU_TEST_INFO(Array_InsertAtHead_standard),
-                                      CU_TEST_INFO(Array_Create_bad_malloc),
-                                      CU_TEST_INFO_NULL};
+  CU_TestInfo InsertAtHead_tests[] = {
+      CU_TEST_INFO(Array_InsertAtHead_standard),
+      CU_TEST_INFO(Array_Create_bad_malloc),
+      CU_TEST_INFO(Array_InsertAtHead_first_item), CU_TEST_INFO_NULL};
   ;
   CU_TestInfo FileData_tests[] = {CU_TEST_INFO(Array_SolveFiles_test),
                                   CU_TEST_INFO_NULL};

@@ -9,8 +9,9 @@
 
 ResultCode Array_Create(sort_strategy comparator, size_t item_size,
                         Array **result) {
-  printf("[Array_Create] comparator=%p, item_size=%zu, out=%p\n", comparator,
-         item_size, (void *)result);
+  /* printf("[Array_Create] comparator=%p, item_size=%zu, out=%p\n", comparator,
+   */
+  /*        item_size, (void *)result); */
   if (comparator == NULL || result == NULL)
     return kNullParameter;
 
