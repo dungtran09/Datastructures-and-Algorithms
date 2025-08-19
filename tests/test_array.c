@@ -53,21 +53,19 @@ static void Array_Create_inits_values() {
 
 /***** Array_InsertAtHead *****/
 static void Array_InsertAtHead_null_parameter() {
-  const int n = 5;
-  const int items[] = {1, 2, 3, 4, 5, 6};
-  const int expected[] = {6, 5, 4, 3, 2, 1};
+  int dummy = 1;
+  ResultCode result_code = Array_InsertAtHead(NULL, &dummy);
+  CU_ASSERT_EQUAL(result_code, kNullParameter);
 
   Array *arr = NULL;
-  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+  result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
   CU_ASSERT_EQUAL(result_code, kSuccess);
 
-  for (size_t i = 0; i < n; i++) {
-    result_code = Array_InsertAtHead(arr, &items[i]);
-    CU_ASSERT_EQUAL(result_code, kSuccess);
-  }
+  result_code = Array_InsertAtHead(arr, NULL);
+  CU_ASSERT_EQUAL(result_code, kNullParameter);
 
-  CU_ASSERT_EQUAL(n, arr->n);
-  CU_ASSERT_EQUAL(0, memcmp(expected, arr->array, sizeof(int) * n));
+  CU_ASSERT_EQUAL(0, arr->n);
+
   Array_Destroy(arr);
 }
 
@@ -77,9 +75,11 @@ static void Array_InsertAtHead_bad_malloc() {
   ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
   CU_ASSERT_EQUAL(result_code, kSuccess);
 
-  result_code = Array_InsertAtHead(arr, &first);
-  CU_ASSERT_EQUAL(result_code, kFailedMemoryAllocation);
-  CU_ASSERT_EQUAL(0, arr->n);
+  FAILED_MALLOC_TEST({
+    result_code = Array_InsertAtHead(arr, &first);
+    CU_ASSERT_EQUAL(result_code, kFailedMemoryAllocation);
+    CU_ASSERT_EQUAL(0, arr->n);
+  })
 
   Array_Destroy(arr);
 }
@@ -100,7 +100,25 @@ static void Array_InsertAtHead_first_item() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_standard() {}
+static void Array_InsertAtHead_standard() {
+  const int size = 5;
+  const int items[] = {1, 2, 3, 4, 5};
+  const int expected[] = {5, 4, 3, 2, 1};
+
+  Array *arr = NULL;
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+
+  for (size_t i = 0; i < size; i++) {
+    result_code = Array_InsertAtHead(arr, &items[i]);
+    CU_ASSERT_EQUAL(result_code, kSuccess);
+  }
+  CU_ASSERT_EQUAL(size, arr->n);
+  CU_ASSERT_EQUAL(0, memcmp(expected, arr->array, sizeof(int) * size));
+
+  Array_Destroy(arr);
+}
 
 static void Array_InsertAtHead_bad_malloc_on_realloc() {}
 
@@ -252,9 +270,12 @@ int RegisterArrayTests() {
       CU_TEST_INFO(Array_Create_inits_values),
       CU_TEST_INFO(Array_Destroy_null_parameter), CU_TEST_INFO_NULL};
   CU_TestInfo InsertAtHead_tests[] = {
+      CU_TEST_INFO(Array_InsertAtHead_null_parameter),
+      CU_TEST_INFO(Array_InsertAtHead_bad_malloc),
+      CU_TEST_INFO(Array_InsertAtHead_first_item),
       CU_TEST_INFO(Array_InsertAtHead_standard),
-      CU_TEST_INFO(Array_Create_bad_malloc),
-      CU_TEST_INFO(Array_InsertAtHead_first_item), CU_TEST_INFO_NULL};
+      CU_TEST_INFO(Array_Destroy_null_parameter),
+      CU_TEST_INFO_NULL};
   ;
   CU_TestInfo FileData_tests[] = {CU_TEST_INFO(Array_SolveFiles_test),
                                   CU_TEST_INFO_NULL};
