@@ -34,7 +34,7 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ctest --output-on-failure
+          ctest --verbose
 
       - name: Copy test data
         run: |
