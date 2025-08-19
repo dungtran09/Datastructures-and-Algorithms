@@ -120,7 +120,24 @@ static void Array_InsertAtHead_ArrayNotEmpty_ShoudShifAndInsert() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_ReallocFail_ShouldReturnError() {}
+static void Array_InsertAtHead_ReallocFail_ShouldReturnError() {
+  int firstItem = 1;
+  int secondItem = 2;
+
+  Array *arr = NULL;
+  ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+
+  result_code = Array_InsertAtHead(arr, &firstItem);
+  CU_ASSERT_EQUAL(result_code, kSuccess);
+  FAILED_MALLOC_TEST({
+    result_code = Array_InsertAtHead(arr, &secondItem);
+    CU_ASSERT_EQUAL(result_code, kFailedMemoryAllocation);
+    CU_ASSERT_EQUAL(1, arr->n);
+  })
+
+  Array_Destroy(arr);
+}
 
 /****__*****/
 
@@ -274,6 +291,7 @@ int RegisterArrayTests() {
       CU_TEST_INFO(Array_InsertAtHead_MallocFail_ShoudReturnError),
       CU_TEST_INFO(Array_InsertAtHead_ArrayEmpty_ShoudInsertFirstItem),
       CU_TEST_INFO(Array_InsertAtHead_ArrayNotEmpty_ShoudShifAndInsert),
+      CU_TEST_INFO(Array_InsertAtHead_ReallocFail_ShouldReturnError),
       CU_TEST_INFO_NULL};
   ;
   CU_TestInfo FileData_tests[] = {CU_TEST_INFO(Array_SolveFiles_test),
