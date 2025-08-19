@@ -28,7 +28,7 @@ typedef struct {
     Array_Destroy(sut);                                                        \
   }
 /***** Array_create *****/
-static void Array_Create_bad_malloc() {
+static void Array_Create_MallocFail_ShoudReturnError() {
   FAILED_MALLOC_TEST({
     Array *array = NULL;
     ResultCode result_code =
@@ -38,7 +38,7 @@ static void Array_Create_bad_malloc() {
   });
 }
 
-static void Array_Create_inits_values() {
+static void Array_Create_ValidArgs_ShoudReturnInitValues() {
   Array *arr = NULL;
   ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
   CU_ASSERT_EQUAL(result_code, kSuccess);
@@ -52,7 +52,7 @@ static void Array_Create_inits_values() {
 }
 
 /***** Array_InsertAtHead *****/
-static void Array_InsertAtHead_null_parameter() {
+static void Array_InsertAtHead_NullParammeter_ShoudReturnError() {
   int dummy = 1;
   ResultCode result_code = Array_InsertAtHead(NULL, &dummy);
   CU_ASSERT_EQUAL(result_code, kNullParameter);
@@ -69,7 +69,7 @@ static void Array_InsertAtHead_null_parameter() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_bad_malloc() {
+static void Array_InsertAtHead_MallocFail_ShoudReturnError() {
   int first = 1;
   Array *arr = NULL;
   ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
@@ -84,7 +84,7 @@ static void Array_InsertAtHead_bad_malloc() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_first_item() {
+static void Array_InsertAtHead_ArrayEmpty_ShoudInsertFirstItem() {
   int item = 1;
   Array *arr = NULL;
   ResultCode result_code = Array_Create(int_comparator_fn, sizeof(int), &arr);
@@ -100,7 +100,7 @@ static void Array_InsertAtHead_first_item() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_standard() {
+static void Array_InsertAtHead_ArrayNotEmpty_ShoudShifAndInsert() {
   const int size = 5;
   const int items[] = {1, 2, 3, 4, 5};
   const int expected[] = {5, 4, 3, 2, 1};
@@ -120,11 +120,11 @@ static void Array_InsertAtHead_standard() {
   Array_Destroy(arr);
 }
 
-static void Array_InsertAtHead_bad_malloc_on_realloc() {}
+static void Array_InsertAtHead_ReallocFail_ShouldReturnError() {}
 
 /****__*****/
 
-static void Array_Destroy_null_parameter() { Array_Destroy(NULL); }
+static void Array_Destroy_NullParameter_ShoudNotCrash() { Array_Destroy(NULL); }
 
 /****__*****/
 static TestArray *_readArrayFile(const char *path) {
@@ -265,28 +265,29 @@ static void Array_SolveFiles_test(void) { Array_SolveFiles(); }
 
 int RegisterArrayTests() {
 
-  CU_TestInfo Create_Destroy_tests[] = {
-      CU_TEST_INFO(Array_Create_bad_malloc),
-      CU_TEST_INFO(Array_Create_inits_values),
-      CU_TEST_INFO(Array_Destroy_null_parameter), CU_TEST_INFO_NULL};
+  CU_TestInfo Create_tests[] = {
+      CU_TEST_INFO(Array_Create_MallocFail_ShoudReturnError),
+      CU_TEST_INFO(Array_Create_ValidArgs_ShoudReturnInitValues),
+      CU_TEST_INFO_NULL};
   CU_TestInfo InsertAtHead_tests[] = {
-      CU_TEST_INFO(Array_InsertAtHead_null_parameter),
-      CU_TEST_INFO(Array_InsertAtHead_bad_malloc),
-      CU_TEST_INFO(Array_InsertAtHead_first_item),
-      CU_TEST_INFO(Array_InsertAtHead_standard),
-      CU_TEST_INFO(Array_Destroy_null_parameter),
+      CU_TEST_INFO(Array_InsertAtHead_NullParammeter_ShoudReturnError),
+      CU_TEST_INFO(Array_InsertAtHead_MallocFail_ShoudReturnError),
+      CU_TEST_INFO(Array_InsertAtHead_ArrayEmpty_ShoudInsertFirstItem),
+      CU_TEST_INFO(Array_InsertAtHead_ArrayNotEmpty_ShoudShifAndInsert),
       CU_TEST_INFO_NULL};
   ;
   CU_TestInfo FileData_tests[] = {CU_TEST_INFO(Array_SolveFiles_test),
                                   CU_TEST_INFO_NULL};
+  CU_TestInfo Destroy_tests[] = {
+      CU_TEST_INFO(Array_Destroy_NullParameter_ShoudNotCrash),
+      CU_TEST_INFO_NULL};
   CU_SuiteInfo suites[] = {
-      {.pName = "Array_Create_Destroy",
-       .pInitFunc = noop,
-       .pTests = Create_Destroy_tests},
+      {.pName = "Array_Create", .pInitFunc = noop, .pTests = Create_tests},
       {.pName = "Array_FileData", .pInitFunc = noop, .pTests = FileData_tests},
       {.pName = "Array_InsertAtHead",
        .pInitFunc = noop,
        .pTests = InsertAtHead_tests},
+      {.pName = "Array_Destroy", .pInitFunc = noop, .pTests = Destroy_tests},
       CU_SUITE_INFO_NULL};
 
   return CU_register_suites(suites);
